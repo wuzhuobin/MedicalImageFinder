@@ -45,7 +45,6 @@ RegistrationWizard::RegistrationWizard(
 	setOption(NoCancelButton,	true);
 	setOption(HaveHelpButton,	false);
 	setOption(IndependentPages,	false);
-	this->
 
     connect(this, SIGNAL(helpRequested()), this, SLOT(showHelp()));
 
