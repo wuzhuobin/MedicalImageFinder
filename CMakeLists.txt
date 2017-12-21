@@ -1,7 +1,7 @@
 # @file	TemplateCMakeLists.txt
 # @brief	A template CMakeLists.txt which can automatically generate project
 # @author	WUZHUOBIN
-# @version	1.2.0
+# @version	1.4.0
 # @since	Sep.19.2017
 # 
 # This template is for generating CMake project easily. Only a few steps.
@@ -25,8 +25,22 @@
 #
 # @date Sep.27.2017
 # version 1.2.0
-# This is a simple version. Cannot generate shared library, only generate static
-# library. No export and install.
+# Adding recursive copying dll. Adding recursive copying lib. Adding some messages.
+#
+# @date	Sep.28.2017
+# version 1.3.0
+# Globe in main as well. Removing bugs. Complete install function.
+# Adding CMakeListsConfig.cmake.in. Updating using buld in qrc. 
+#
+# @date Oct.10.2017
+# version 1.4.0
+# Fix bugs of ${SYSTEM_INCLUDE}, every element in it should has format like  
+# $<BUILD_INTERFACE:${...}>
+#
+# @date Dec.08.2017
+# version 1.5.0
+# Removing qt5_add_traslation. Try to do this with custom command later instead of 
+# in library layer.
 #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 #			Copyright (c) WUZHUOBIN 											    #
@@ -88,7 +102,6 @@ include(${VTK_USE_FILE})
 # QT
 find_package(Qt5Core REQUIRED)
 find_package(Qt5Widgets REQUIRED)
-find_package(Qt5LinguistTools REQUIRED)
 # # # # # # # # # # # # # # # # # CHANGE BELOW  # # # # # # # # # # # # # # # # 
 #find_package(Qt5.... REQUIRED)
 #find_package(... REQURIED)
@@ -97,24 +110,24 @@ find_package(Qt5LinguistTools REQUIRED)
 #find_package()
 #....
 
-# QT_QRC
-#set(
-#	PROJECT_QRC
-#	#PATH	
-#)
-
-
-# WINDOWS RESOURCES
+# WINDOWS RESOURCE
 # set(
-# 	WINDOWS_RESOURCES
+# 	WINDOWS_RESOURCE
 # 	# PATH
 # )
-
-
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #  
 # # # # # # # # # # # # # # # # # LIBRARIES # # # # # # # # # # # # # # # # # #  
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #  
+
+# Allow the developer to select if Dynamic or Static libraries are built
+option (BUILD_SHARED_LIBS "Build Shared Libraries" OFF)
+# Set the LIB_TYPE variable to STATIC
+set (LIB_TYPE STATIC)
+if (BUILD_SHARED_LIBS)
+	# User wants to build Dynamic Libraries, so change the LIB_TYPE variable to CMake keyword 'SHARED'
+	set (LIB_TYPE SHARED)
+endif (BUILD_SHARED_LIBS)
 
 set(
 	CMAKE_ARCHIVE_OUTPUT_DIRECTORY
@@ -130,6 +143,46 @@ set(
 	${CMAKE_BINARY_DIR}/bin
 )
 
+# copying external dll to executable path
+if(${WIN32})
+	# copy dll 
+	file(
+		GLOB_RECURSE
+		SYSTEM_DLL
+		${PROJECT_SOURCE_DIR}/*.dll
+	)
+	if(${MSVC})
+		file(
+			COPY
+			${SYSTEM_DLL}
+			DESTINATION
+			${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Release
+		)
+
+		file(
+			COPY
+			${SYSTEM_DLL}
+			DESTINATION
+			${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Debug
+		)
+	else()
+		file(
+			COPY
+			${SYSTEM_DLL}
+			DESTINATION
+			${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
+		)
+	endif()
+
+	message(
+		STATUS
+		"Copying Dll...\n"
+		"FROM ${SYSTEM_DLL}\n"
+		"TO ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}"
+	)
+
+endif()
+
 link_directories(
 	${CMAKE_ARCHIVE_OUTPUT_DIRECTORY}
 	${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
@@ -143,42 +196,94 @@ set(
 	Qt5::Widgets
 )
 
+# find all external lib in the current folder recursively
+if(${WIN32})
+	file(
+		GLOB_RECURSE
+		EXTERNAL_LIBRARIES
+		${PROJECT_SOURCE_DIR}/*.lib
+	)
+	if(${MSVC})
+		file(
+			COPY
+			${EXTERNAL_LIBRARIES}
+			DESTINATION
+			${CMAKE_ARCHIVE_OUTPUT_DIRECTORY}/Release
+		)
+
+		file(
+			COPY
+			${EXTERNAL_LIBRARIES}
+			DESTINATION
+			${CMAKE_ARCHIVE_OUTPUT_DIRECTORY}/Debug
+		)
+	else()
+		file(
+			COPY
+			${EXTERNAL_LIBRARIES}
+			DESTINATION
+			${CMAKE_ARCHIVE_OUTPUT_DIRECTORY}
+		)
+	endif()
+	
+	foreach(LIB_NAME ${EXTERNAL_LIBRARIES})
+		
+		get_filename_component(
+			LIB_NAME
+			${LIB_NAME}
+			NAME
+		)
+
+		set(
+			SYSTEM_LIBRARIES
+			${SYSTEM_LIBRARIES}
+			${LIB_NAME}
+		)
+	endforeach()
+endif()
+
 set(
 	SYSTEM_INCLUDE
 	${PROJECT_SOURCE_DIR}
-	${PROJECT_BINARY_DIR}
 )
 
 # # # # # # # # # # # # # # # # # CHANGE BELOW  # # # # # # # # # # # # # # # # 
 set(
 	SYSTEM_LIBRARIES
 	${SYSTEM_LIBRARIES}
-	# Qt5::LinguistTools
 	#OTHERS
 	#...
+	# opengl32
+	# comctl32
+	# wsock32
+	# odbc32
+	# odbccp32
+	# legacy_stdio_definitions
 )
 
 set(
 	SYSTEM_INCLUDE
 	${SYSTEM_INCLUDE}
+	# ${PROJECT_SOURCE_DIR}/Dist64
+	# ${PROJECT_SOURCE_DIR}/FL
 	#....
 )
 
 
 # Enable always build static library
-set(LIB_TYPE STATIC)
+# set(LIB_TYPE STATIC)
 
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #  
 # # # # # # # # # # # # # # # # # CODES # # # # # # # # # # # # # # # # # # # #  
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #  
 
+
+# # # # # # # # # # # # # # # # # BUILD LIBRARY # # # # # # # # # # # # # # # #  
+file(GLOB PROJECT_QRC *.qrc)
 file(GLOB PROJECT_SRC *.c*)
 file(GLOB PROJECT_INC *.h*)
 file(GLOB PROJECT_UI *.ui)
-file(GLOB PROJECT_TS *.ts)
-set(MAIN_CPP ${PROJECT_SOURCE_DIR}/main/main.cpp)
-
 
 # Output UI headers to specified location
 qt5_wrap_ui(
@@ -196,10 +301,12 @@ qt5_add_resources(
 	${PROJECT_QRC}
 )
 
-qt5_add_translation(
-	PROJECT_QM
-	${PROJECT_TS}
-)
+# Adding a prefix for exporting target
+foreach(ONE_INCLUDE ${SYSTEM_INCLUDE})
+	set(TEMPORARY_SYSTEM_INCLUDE ${TEMPORARY_SYSTEM_INCLUDE} $<BUILD_INTERFACE:${ONE_INCLUDE}>)
+endforeach()
+
+set(SYSTEM_INCLUDE ${TEMPORARY_SYSTEM_INCLUDE})
 
 # Building library
 if( NOT "${PROJECT_SRC}" STREQUAL "")
@@ -212,7 +319,12 @@ if( NOT "${PROJECT_SRC}" STREQUAL "")
 	    ${PROJECT_MOC}
 		${PROJECT_UI}
 		${PROJECT_UI_H}
+		${PROJECT_QRC}
+		${PROJECT_QRC_SRC}
 	)
+
+	include(GenerateExportHeader)
+	generate_export_header(${PROJECT_NAME})
 
 	target_link_libraries(
 	    ${PROJECT_NAME}
@@ -224,44 +336,144 @@ if( NOT "${PROJECT_SRC}" STREQUAL "")
 		"Linking Libraries\n"
 		"${SYSTEM_LIBRARIES}"
 	)
-	
+
 	target_include_directories(
 		${PROJECT_NAME}
 		PUBLIC
+		$<BUILD_INTERFACE:${PROJECT_BINARY_DIR}>
 		${SYSTEM_INCLUDE}
+		$<INSTALL_INTERFACE:include>  
 	)
 
 	message(
 		STATUS
 		"Include directory\n"
 		"${SYSTEM_INCLUDE}"
+		"$<BUILD_INTERFACE:${PROJECT_BINARY_DIR}>"
+	
+	)
+	
+
+	# installation to be continue.
+	# comment following for normal source project
+
+	install(
+		TARGETS ${PROJECT_NAME}
+		EXPORT ${PROJECT_NAME} 
+	    RUNTIME DESTINATION bin
+	    LIBRARY DESTINATION lib
+		ARCHIVE DESTINATION lib
+		INCLUDES DESTINATION include
+	)
+	
+	export(
+		EXPORT
+		${PROJECT_NAME}
+		FILE
+		${CMAKE_BINARY_DIR}/lib/cmake/${PROJECT_NAME}.cmake
 	)
 
+	configure_file(
+		CMakeListsConfig.cmake.in
+		${CMAKE_BINARY_DIR}/lib/cmake/${PROJECT_NAME}-config.cmake
+		@ONLY
+	)
+
+	install(
+		FILES 
+		${PROJECT_BINARY_DIR}/${PROJECT_NAME}_export.h
+		${PROJECT_INC}
+		${PROJECT_UI_H}
+		DESTINATION
+		include
+	)
+	
+	install(
+		EXPORT ${PROJECT_NAME}
+		DESTINATION lib/cmake
+	)
+
+	install(
+		FILES
+		${CMAKE_BINARY_DIR}/lib/cmake/${PROJECT_NAME}-config.cmake
+		DESTINATION
+		lib/cmake
+	)
 	
 endif()
 
+# # # # # # # # # # # # # # # # BUILD EXE # # # # # # # # # # # # # # # # # # #  
+file(GLOB MAIN_PROJECT_QRC main/*.qrc)
+file(GLOB MAIN_PROJECT_SRC main/*.c*)
+file(GLOB MAIN_PROJECT_INC main/*.h*)
+file(GLOB MAIN_PROJECT_UI main/*.ui)
 
-if(EXISTS ${MAIN_CPP})
+# Output UI headers to specified location
+qt5_wrap_ui(
+	MAIN_PROJECT_UI_H
+	${MAIN_PROJECT_UI}
+)
 
-	add_executable(
-		${PROJECT_NAME}_main
-		${MAIN_CPP}
-		${PROJECT_QRC}
-		${PROJECT_QRC_SRC}
-		${PROJECT_TS}
-		${PROJECT_QM}
-	)
+qt5_wrap_cpp(
+    MAIN_PROJECT_MOC
+    ${MAIN_PROJECT_INC}
+)
+
+qt5_add_resources(
+	MAIN_PROJECT_QRC_SRC
+	${MAIN_PROJECT_QRC}
+)
+
+if( NOT "${MAIN_PROJECT_SRC}" STREQUAL "")
 
 	if(NOT "${PROJECT_SRC}" STREQUAL "")
+
+		add_executable(
+			${PROJECT_NAME}_main
+			${MAIN_PROJECT_SRC}
+			${MAIN_PROJECT_MOC}
+			${MAIN_PROJECT_INC}
+			${MAIN_PROJECT_UI}
+			${MAIN_PROJECT_UI_H}
+			${MAIN_PROJECT_QRC}
+			${MAIN_PROJECT_QRC_SRC}
+			${WINDOWS_RESOURCE}
+
+		)
+
 		target_link_libraries(
 			${PROJECT_NAME}_main
 			${PROJECT_NAME}
 		)
+
 	else()
+
+		add_executable(
+			${PROJECT_NAME}_main
+			${MAIN_PROJECT_SRC}
+			${MAIN_PROJECT_MOC}
+			${MAIN_PROJECT_INC}
+			${MAIN_PROJECT_UI}
+			${MAIN_PROJECT_UI_H}
+			${MAIN_PROJECT_QRC}
+			${MAIN_PROJECT_QRC_SRC}
+			${PROJECT_QRC}
+			${PROJECT_QRC_SRC}
+			${WINDOWS_RESOURCE}
+		)
+
 		target_link_libraries(
 			${PROJECT_NAME}_main
 			${SYSTEM_LIBRARIES}
 		)
+
+		target_include_directories(
+			${PROJECT_NAME}_main
+			PUBLIC
+			${PROJECT_BINARY_DIR}
+			${SYSTEM_INCLUDE}
+		)
+
 	endif()
 
 endif()
@@ -273,23 +485,28 @@ source_group(
 	FILES
 	${PROJECT_MOC}
 	${PROJECT_UI_H}
+	${MAIN_PROJECT_MOC}
+	${MAIN_PROJECT_UI_H}
 	${PROJECT_QRC_SRC}
+	${MAIN_PROJECT_QRC_SRC}
 )
 source_group(
 	"Forms Files"
 	FILES
 	${PROJECT_UI}
+	${MAIN_PROJECT_UI}
 )
 source_group(
 	"Header Files" 
 	FILES 
 	${PROJECT_INC}
+	${MAIN_PROJECT_INC}
 )
 source_group(
 	"Source Files" 
 	FILES 
 	${PROJECT_SRC}
-	${MAIN_CPP}
+	${MAIN_PROJECT_SRC}
 )
 
 MESSAGE(STATUS "Building submodule ${PROJECT_NAME} finished!")

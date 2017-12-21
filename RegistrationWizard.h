@@ -1,7 +1,10 @@
 #ifndef REGISTRATIONWIZARD_H
 #define REGISTRATIONWIZARD_H
 
-//qt
+// me
+#include "registrationwizard_export.h"
+
+// qt
 #include <QWizard>
 #include <QRunnable>
 #include <QList>
@@ -19,7 +22,7 @@ class DirectoryPage;
 class ImagePage;
 class ConclusionPage;
 
-class RegistrationWizard : public QWizard
+class REGISTRATIONWIZARD_EXPORT RegistrationWizard : public QWizard
 {
 	Q_OBJECT
 
@@ -81,7 +84,7 @@ private:
 
 };
 
-class DirectoryPage : public QWizardPage
+class REGISTRATIONWIZARD_EXPORT DirectoryPage : public QWizardPage
 {
     Q_OBJECT
 
@@ -101,7 +104,7 @@ private:
 
 };
 
-class ImagePage : public QWizardPage
+class REGISTRATIONWIZARD_EXPORT ImagePage : public QWizardPage
 {
     Q_OBJECT
 
@@ -145,7 +148,7 @@ private:
 
 };
 
-class ConclusionPage : public QWizardPage
+class REGISTRATIONWIZARD_EXPORT ConclusionPage : public QWizardPage
 {
 	Q_OBJECT
 
@@ -164,7 +167,7 @@ private:
 	QList<QTableWidget*> m_tableWidgets;
 };
 
-class FindImageRunnable :public QObject, public QRunnable
+class REGISTRATIONWIZARD_EXPORT FindImageRunnable :public QObject, public QRunnable
 {
 	Q_OBJECT;
 public:
