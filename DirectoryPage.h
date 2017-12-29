@@ -1,13 +1,17 @@
 #ifndef __DIRECTORY_PAGE_H__
 #define __DIRECTORY_PAGE_H__
 
+// me
+#include "registrationwizard_export.h"
+
+// qt
 #include <QWizardPage>
 
 namespace Ui {
 	class DirectoryPage;
 }
 
-class DirectoryPage : public QWizardPage
+class REGISTRATIONWIZARD_EXPORT DirectoryPage : public QWizardPage
 {
 	Q_OBJECT
 

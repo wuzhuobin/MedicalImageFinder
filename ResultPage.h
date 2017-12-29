@@ -1,6 +1,9 @@
 #ifndef __RESULT_PAGE_H__
 #define __RESULT_PAGE_H__
 
+// me
+#include "registrationwizard_export.h"
+
 //qt
 #include <QWizardPage>
 #include <QList>
@@ -11,7 +14,7 @@ namespace Ui {
 	class ResultPage;
 }
 
-class ResultPage : public QWizardPage
+class REGISTRATIONWIZARD_EXPORT ResultPage : public QWizardPage
 {
 	Q_OBJECT
 

@@ -1,6 +1,9 @@
 #ifndef __IMAGE_PAGE_H__
 #define __IMAGE_PAGE_H__
 
+// me
+#include "registrationwizard_export.h"
+
 //qt
 #include <QWizardPage>
 #include <QRunnable>
@@ -15,7 +18,7 @@ namespace Ui {
 	class ImagePage;
 }
 
-class ImagePage : public QWizardPage
+class REGISTRATIONWIZARD_EXPORT ImagePage : public QWizardPage
 {
 	Q_OBJECT
 
