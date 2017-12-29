@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>DirectoryPage</class>
+ <widget class="QWizardPage" name="DirectoryPage">
+  <property name="windowModality">
+   <enum>Qt::NonModal</enum>
+  </property>
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1037</width>
+    <height>78</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Directory Page</string>
+  </property>
+  <property name="autoFillBackground">
+   <bool>false</bool>
+  </property>
+  <property name="title">
+   <string>Medical Image Directory Or Medical Image</string>
+  </property>
+  <property name="subTitle">
+   <string>Select a folder which contains medical images or select a medical image file. Medical images should be in DICOM(*.dcm) or NIFTI (*.nii/*.nii.gz) format. </string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout_3">
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_3">
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <widget class="QLabel" name="label_dir">
+         <property name="text">
+          <string>Medical Image Directory:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_image">
+         <property name="text">
+          <string>Medical Image:</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <item>
+          <widget class="QLineEdit" name="lineEdit_directory"/>
+         </item>
+         <item>
+          <widget class="QPushButton" name="pushButtonDirectoryBrowse">
+           <property name="text">
+            <string>Browse</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <item>
+          <widget class="QLineEdit" name="lineEdit_image"/>
+         </item>
+         <item>
+          <widget class="QPushButton" name="pushButtonFileBrowse">
+           <property name="text">
+            <string>Browse</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

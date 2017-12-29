@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ImagePage</class>
+ <widget class="QWizardPage" name="ImagePage">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1037</width>
+    <height>245</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Image Page</string>
+  </property>
+  <property name="title">
+   <string>Select image series</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QTreeWidget" name="treeWidget">
+     <property name="minimumSize">
+      <size>
+       <width>1000</width>
+       <height>200</height>
+      </size>
+     </property>
+     <property name="columnCount">
+      <number>8</number>
+     </property>
+     <attribute name="headerVisible">
+      <bool>true</bool>
+     </attribute>
+     <column>
+      <property name="text">
+       <string>Patient Name</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Modality</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Series Description</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Slice</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Date</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Series UID</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Format</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Path</string>
+      </property>
+     </column>
+    </widget>
+   </item>
+   <item>
+    <widget class="QProgressBar" name="progressBar">
+     <property name="value">
+      <number>24</number>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
