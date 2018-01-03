@@ -12,7 +12,10 @@ DirectoryPage::DirectoryPage(QString dir, QWidget *parent) :
 {
 	ui->setupUi(this);
 	registerField("directory.path", ui->lineEdit_directory);
-	setField("directory.path", dir);
+	// not working?
+	//setField("directory.path", dir);
+	ui->lineEdit_directory->setText(dir);
+	
 
 	connect(ui->pushButtonDirectoryBrowse, SIGNAL(clicked()), this, SLOT(browse()));
 }
