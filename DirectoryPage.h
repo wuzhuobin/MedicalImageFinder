@@ -2,7 +2,7 @@
 #define __DIRECTORY_PAGE_H__
 
 // me
-#include "registrationwizard_export.h"
+#include "medicalimagefinder_export.h"
 
 // qt
 #include <QWizardPage>
@@ -11,7 +11,7 @@ namespace Ui {
 	class DirectoryPage;
 }
 
-class REGISTRATIONWIZARD_EXPORT DirectoryPage : public QWizardPage
+class MEDICALIMAGEFINDER_EXPORT DirectoryPage : public QWizardPage
 {
 	Q_OBJECT
 

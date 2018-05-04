@@ -2,7 +2,7 @@
 #define __MEDICAL_IMAGE_FINDER_H__
 
 // me
-#include "registrationwizard_export.h"
+#include "medicalimagefinder_export.h"
 
 // qt
 #include <QWizard>
@@ -19,7 +19,7 @@ namespace Ui {
 	class MedicalImageFinder;
 }
 
-class REGISTRATIONWIZARD_EXPORT MedicalImageFinder : public QWizard
+class MEDICALIMAGEFINDER_EXPORT MedicalImageFinder : public QWizard
 {
 	Q_OBJECT
 
