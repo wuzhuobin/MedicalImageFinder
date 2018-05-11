@@ -241,7 +241,7 @@ void FindImageRunnable::run()
 			}
 		}
 		catch (itk::ExceptionObject& e) {
-			qDebug() << e.what();
+			//qDebug() << e.what();
 		}
 
 	}
@@ -317,9 +317,9 @@ void FindImageRunnable::GDCImageIORead(const std::vector<std::string>& files)
 	}
 	catch (itk::ExceptionObject& e) {
 		patientName = QFileInfo(QString::fromStdString(_file)).baseName().toStdString();
-		qDebug() << "Input are not DICOM images.";
-		qDebug() << "Input are assumed to be NIFTI.";
-		qDebug() << e.what();
+		//qDebug() << "Input are not DICOM images.";
+		//qDebug() << "Input are assumed to be NIFTI.";
+		//qDebug() << e.what();
 
 	}
 
@@ -338,7 +338,7 @@ void FindImageRunnable::GDCImageIORead(const std::vector<std::string>& files)
 		_emitString += ";";   //RegistrationWizard::SEPERATOR;
 	}
 	_emitString.remove(_emitString.size() - 1, 1);
-	qDebug() << _emitString;
+	//qDebug() << _emitString;
 
 	emit addTreeWidgetItem(_emitString);
 }

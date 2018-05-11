@@ -34,7 +34,7 @@ public:
 	virtual void initializePage();
 	virtual bool validatePage();
 
-	Ui::ImagePage* getUi() { return this->ui; }
+	//Ui::ImagePage* getUi() { return this->ui; }
 
 public slots:
 	void updateProgressBar();

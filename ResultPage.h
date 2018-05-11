@@ -22,7 +22,7 @@ public:
 	ResultPage(int numOfImages = 2, QWidget* parent = nullptr);
 	ResultPage(QWidget *parent);
 	~ResultPage();
-	Ui::ResultPage* getUi() { return this->ui; }
+	//Ui::ResultPage* getUi() { return this->ui; }
 
 	void initializePage();
 	int nextId() const;

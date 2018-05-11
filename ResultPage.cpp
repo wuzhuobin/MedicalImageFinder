@@ -90,7 +90,7 @@ void ResultPage::initializePage()
 			}
 
 			reader->SetFileName(imagePaths[0].toStdString());
-			qDebug() << imagePaths;
+			//qDebug() << imagePaths;
 			reader->SetImageIO(dicomIO);
 			reader->Update();
 
@@ -124,8 +124,8 @@ void ResultPage::initializePage()
 			}
 		}
 		catch (itk::ExceptionObject& e) {
-			qDebug() << "Inputs are not DICOM images.";
-			qDebug() << e.what();
+			//qDebug() << "Inputs are not DICOM images.";
+			//qDebug() << e.what();
 		}
 
 		//if (!(*m_DICOMHeaders)[i].isNull()) {

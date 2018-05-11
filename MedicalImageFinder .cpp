@@ -76,6 +76,19 @@ void MedicalImageFinder::showHelp()
 
 }
 
+QStringList MedicalImageFinder::getFileNames()
+{
+	QStringList fileNames;
+	for (int i = 0; i < this->m_numOfImages; ++i) {
+		QString fileName = field("image.path" + QString::number(i)).toString(); 
+		if (fileName.isEmpty()) {
+			continue;
+		}
+		fileNames += fileName;
+	}
+	return fileNames;
+}
+
 QString MedicalImageFinder::getFileNames(unsigned int i)
 {
 	if (i < 0 || i >= m_numOfImages) {

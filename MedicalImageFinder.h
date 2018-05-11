@@ -6,9 +6,6 @@
 
 // qt
 #include <QWizard>
-#include <QRunnable>
-#include <QLabel>
-#include <QLineEdit>
 
 class DirectoryPage;
 class ImagePage;
@@ -38,10 +35,11 @@ public:
 	MedicalImageFinder(int numOfImages, QWidget *parent = nullptr);
 	MedicalImageFinder(QWidget *parent);
 	~MedicalImageFinder();
-	Ui::MedicalImageFinder* getUi() { return this->ui; }
+	//Ui::MedicalImageFinder* getUi() { return this->ui; }
 
 	void setImageModalityNames(unsigned int i, QString imageModalityName = QString());
 
+	QStringList getFileNames();
 	QString getFileNames(unsigned int i);
 	void setDirectory(QString directory);
 	const QString getDirectory();
