@@ -115,7 +115,10 @@ find_package(Qt5Widgets REQUIRED)
 # 	WINDOWS_RESOURCE
 # 	# PATH
 # )
-
+option(BUILD_EXAMPLE "Build Example" OFF)
+if(BUILD_EXAMPLE)
+	add_subdirectory(MedicalImageFinderExample)
+endif(BUILD_EXAMPLE)
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #  
 # # # # # # # # # # # # # # # # # LIBRARIES # # # # # # # # # # # # # # # # # #  
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #  
