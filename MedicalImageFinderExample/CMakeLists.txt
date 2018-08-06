@@ -154,13 +154,13 @@ set(
 	${SYSTEM_LIBRARIES}
 	#OTHERS
 	#...
+	MedicalImageFinder
 )
 
 set(
 	SYSTEM_INCLUDE
 	${SYSTEM_INCLUDE}
 	#....
-	MedicalImageFinder
 )
 
 
