@@ -7,6 +7,7 @@
 #include <QDir>
 #include <QFileDialog>
 #include <QTableWidget>
+#include <QHeaderView>
 
 //itk
 #include "itkGDCMSeriesFileNames.h"
