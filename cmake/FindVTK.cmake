@@ -1,9 +1,0 @@
-# VTK
-find_package(VTK REQUIRED)
-include(${VTK_USE_FILE})
-# LIBRARIES
-list(
-    APPEND
-    PROJECT_LIBRARY
-    ${VTK_LIBRARIES}
-)
